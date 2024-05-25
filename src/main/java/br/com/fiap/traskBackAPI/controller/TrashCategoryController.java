@@ -15,7 +15,7 @@ public class TrashCategoryController {
     @Autowired
     private TrashCategoryService trashCategoryService;
 
-    @GetMapping()
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<TrashCategory> getListOfTrashCategoryService() {
         return trashCategoryService.getAllTrashCategories();
@@ -23,7 +23,7 @@ public class TrashCategoryController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TrashCategory getTrashCategoryById(@RequestParam() Long id) {
+    public TrashCategory getTrashCategoryById(@PathVariable Long id) {
         return trashCategoryService.getTrashCategoryById(id);
     }
 
@@ -32,22 +32,4 @@ public class TrashCategoryController {
     public TrashCategory createTrashCategory(@RequestBody() TrashCategory trashCategory) {
         return trashCategoryService.createTrashCategory(trashCategory);
     }
-
-//    @GetMapping()
-//    @ResponseStatus(HttpStatus.OK)
-//    public String getIndex() {
-//        return "Hello World";
-//    }
-//
-//    @GetMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public String getIndexByID(@PathVariable int id) {
-//        return "Hello World" + id;
-//    }
-//
-//    @PostMapping()
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public String saveIndex(@RequestBody String body){
-//        return "Hello World";
-//    };
 }
