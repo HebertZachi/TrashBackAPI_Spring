@@ -29,13 +29,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/trash-category").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/trash-category").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/trash-category").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/trash-category/").hasAnyRole("USER", "ADMIN")
-                                .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.POST, "/api/users", "/auth").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/collect-points", "/api/collect-points/**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/api/collect-points", "/api/collect-points/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/collect-points/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/collect-points/**").hasRole("ADMIN")
                 )
                 .addFilterBefore(verficaToken, UsernamePasswordAuthenticationFilter.class)
                 .build();
