@@ -12,20 +12,20 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-    public String gerarToken(User user) {
+    public String generateToken(User user) {
         Algorithm algorithm = Algorithm.HMAC256("secret");
 
         String token = JWT.create()
                 .withIssuer("trash-back")
                 .withSubject(user.getUsername())
-                .withExpiresAt(gerarDataDeExpiracao())
+                .withExpiresAt(generateExpirationDate())
                 .sign(algorithm);
 
         System.out.println(token);
         return token;
     }
 
-    private Instant gerarDataDeExpiracao(){
+    private Instant generateExpirationDate(){
         return LocalDateTime
                 .now()
                 .plusHours(8)
@@ -33,7 +33,7 @@ public class TokenService {
     }
 
 
-    public String validarToken(String token){
+    public String validateToken(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
             return JWT.require(algorithm)
