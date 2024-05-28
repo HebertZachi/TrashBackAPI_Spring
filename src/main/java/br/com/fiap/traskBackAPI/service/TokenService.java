@@ -32,7 +32,6 @@ public class TokenService {
                 .toInstant(ZoneOffset.of("-03:00"));
     }
 
-
     public String validateToken(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");

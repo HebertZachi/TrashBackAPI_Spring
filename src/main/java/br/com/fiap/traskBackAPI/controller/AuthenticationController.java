@@ -33,20 +33,6 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
-//    @PostMapping
-//    public ResponseEntity login(@RequestBody User user) {
-//
-//        System.out.println(user);
-//        UsernamePasswordAuthenticationToken usernamePassword =
-//                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-//
-//        Authentication auth = authenticationManager.authenticate(usernamePassword);
-//
-//        String token = tokenService.generateToken((User) auth.getPrincipal());
-//
-//        return ResponseEntity.ok(new TokenDTO(token));
-//    }
-
     @PostMapping
     public ResponseEntity login(@Valid @RequestBody UserSignInDTO userSignInDTO) {
         try {
@@ -61,23 +47,6 @@ public class AuthenticationController {
             return buildErrorResponse("Email or password is incorrect", HttpStatus.UNAUTHORIZED);
         }
     }
-
-
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@Valid @RequestBody UserSignInDTO userSignInDTO) {
-//        try {
-//            UsernamePasswordAuthenticationToken usernamePassword =
-//                    new UsernamePasswordAuthenticationToken(userSignInDTO.email(), userSignInDTO.password());
-//
-//            Authentication auth = authenticationManager.authenticate(usernamePassword);
-//
-//            String token = tokenService.generateToken((User) auth.getPrincipal());
-//
-//            return ResponseEntity.ok(new TokenDTO(token));
-//        } catch (BadCredentialsException ex) {
-//            return buildErrorResponse("Email or password is incorrect", HttpStatus.UNAUTHORIZED);
-//        }
-//    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

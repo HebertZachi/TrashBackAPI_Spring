@@ -18,6 +18,67 @@ public class CollectPointService {
     @Autowired
     private CollectPointRepository collectPointRepository;
 
+    public List<CollectPoint> getAllCollectPoints() {
+        return collectPointRepository.findAll();
+    }
+
+    public CollectPointDTO getCollectionPointById(Long id) {
+        CollectPoint collectPoint = collectPointRepository.findById(id).orElse(null);
+        if (collectPoint != null) {
+            collectPointRepository.deleteById(id);
+            return new CollectPointDTO(
+                    collectPoint.getId(),
+                    collectPoint.getName(),
+                    collectPoint.getAddress(),
+                    collectPoint.getTrashType(),
+                    collectPoint.getLatitude(),
+                    collectPoint.getLongitude()
+            );
+        } else {
+            throw new EntityNotFoundException("CollectPoint not found for the provided ID: " + id);
+        }
+    }
+
+    public List<CollectPointDTO> getCollectionPointsByName(String name) {
+        List<CollectPoint> collectPoints = collectPointRepository.findByName(name);
+        if (!collectPoints.isEmpty()) {
+            List<CollectPointDTO> collectPointDTOs = new ArrayList<>();
+            for (CollectPoint collectPoint : collectPoints) {
+                collectPointDTOs.add(new CollectPointDTO(
+                        collectPoint.getId(),
+                        collectPoint.getName(),
+                        collectPoint.getAddress(),
+                        collectPoint.getTrashType(),
+                        collectPoint.getLatitude(),
+                        collectPoint.getLongitude()
+                ));
+            }
+            return collectPointDTOs;
+        } else {
+            throw new EntityNotFoundException("CollectPoints not found for the provided name: " + name);
+        }
+    }
+
+    public List<CollectPointDTO> getCollectionPointsByTrashType(String trashType) {
+        List<CollectPoint> collectPoints = collectPointRepository.findByTrashType(trashType);
+        if (!collectPoints.isEmpty()) {
+            List<CollectPointDTO> collectPointDTOs = new ArrayList<>();
+            for (CollectPoint collectPoint : collectPoints) {
+                collectPointDTOs.add(new CollectPointDTO(
+                        collectPoint.getId(),
+                        collectPoint.getName(),
+                        collectPoint.getAddress(),
+                        collectPoint.getTrashType(),
+                        collectPoint.getLatitude(),
+                        collectPoint.getLongitude()
+                ));
+            }
+            return collectPointDTOs;
+        } else {
+            throw new EntityNotFoundException("CollectPoints not found for the provided trash type: " + trashType);
+        }
+    }
+
     public CollectPointDTO createCollectPoint(CollectPointDTO collectPointDTO) {
         CollectPoint collectPoint = new CollectPoint();
         BeanUtils.copyProperties(collectPointDTO, collectPoint);
@@ -49,67 +110,6 @@ public class CollectPointService {
                 savedCollectPoint.getLatitude(),
                 savedCollectPoint.getLongitude()
         )).collect(Collectors.toList());
-    }
-
-    public List<CollectPoint> getAllCollectPoints() {
-        return collectPointRepository.findAll();
-    }
-
-    public CollectPointDTO getCollectionPointById(Long id) {
-        CollectPoint collectPoint = collectPointRepository.findById(id).orElse(null);
-        if (collectPoint != null) {
-            collectPointRepository.deleteById(id);
-            return new CollectPointDTO(
-                    collectPoint.getId(),
-                    collectPoint.getName(),
-                    collectPoint.getAddress(),
-                    collectPoint.getTrashType(),
-                    collectPoint.getLatitude(),
-                    collectPoint.getLongitude()
-            );
-        } else {
-            throw new EntityNotFoundException("CollectPoint not found for the provided ID: " + id);
-        }
-    }
-
-    public List<CollectPointDTO> getCollectionPointsByTrashType(String trashType) {
-        List<CollectPoint> collectPoints = collectPointRepository.findByTrashType(trashType);
-        if (!collectPoints.isEmpty()) {
-            List<CollectPointDTO> collectPointDTOs = new ArrayList<>();
-            for (CollectPoint collectPoint : collectPoints) {
-                collectPointDTOs.add(new CollectPointDTO(
-                        collectPoint.getId(),
-                        collectPoint.getName(),
-                        collectPoint.getAddress(),
-                        collectPoint.getTrashType(),
-                        collectPoint.getLatitude(),
-                        collectPoint.getLongitude()
-                ));
-            }
-            return collectPointDTOs;
-        } else {
-            throw new EntityNotFoundException("CollectPoints not found for the provided trash type: " + trashType);
-        }
-    }
-
-    public List<CollectPointDTO> getCollectionPointsByName(String name) {
-        List<CollectPoint> collectPoints = collectPointRepository.findByName(name);
-        if (!collectPoints.isEmpty()) {
-            List<CollectPointDTO> collectPointDTOs = new ArrayList<>();
-            for (CollectPoint collectPoint : collectPoints) {
-                collectPointDTOs.add(new CollectPointDTO(
-                        collectPoint.getId(),
-                        collectPoint.getName(),
-                        collectPoint.getAddress(),
-                        collectPoint.getTrashType(),
-                        collectPoint.getLatitude(),
-                        collectPoint.getLongitude()
-                ));
-            }
-            return collectPointDTOs;
-        } else {
-            throw new EntityNotFoundException("CollectPoints not found for the provided name: " + name);
-        }
     }
 
     public CollectPointDTO  updateCollectPoint(Long id, CollectPointDTO collectPointDTO) {

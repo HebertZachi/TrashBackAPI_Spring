@@ -40,12 +40,6 @@ public class UserController {
         response.put("messageError", errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
-//    @PostMapping
-//    public ResponseEntity registrar(@RequestBody User user){
-//        User userCadastrado = userService.registrar(user);
-//        return ResponseEntity.ok(userCadastrado);
-//    }
 }
 
 

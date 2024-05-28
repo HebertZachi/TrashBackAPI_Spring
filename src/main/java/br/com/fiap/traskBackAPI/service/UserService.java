@@ -26,12 +26,4 @@ public class UserService {
         User savedUser = userRepository.save(user);
         return new UserSignUpReturnDTO(savedUser);
     }
-
-
-//    public User registrar(User user){
-//        String senhaCripto = new BCryptPasswordEncoder().encode(user.getPassword());
-//        user.setPassword(senhaCripto);
-//
-//        return userRepository.save(user);
-//    }
 }
